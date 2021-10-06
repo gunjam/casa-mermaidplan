@@ -1,0 +1,20 @@
+{
+  "name": "casa-mermaidplan",
+  "version": "0.1.0",
+  "description": "",
+  "main": "mermaid-plan.js",
+  "bin": {
+    "mermaidplan": "mermaid-plan.js"
+  },
+  "scripts": {
+    "test": "tap test/**/*.test.js",
+    "lint": "standard"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@dwp/govuk-casa": "^7.0.6",
+    "standard": "^16.0.4",
+    "tap": "^15.0.10"
+  }
+}
