@@ -10,6 +10,9 @@
     "test": "tap test/**/*.test.js",
     "lint": "standard"
   },
+  "files": [
+    "./mermaid-plan.js"
+  ],
   "author": "",
   "license": "ISC",
   "devDependencies": {
