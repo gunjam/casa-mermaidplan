@@ -3,7 +3,7 @@
 
 const path = require('path')
 
-function isValidDirection(direction) {
+function isValidDirection (direction) {
   const validDirections = ['TB', 'TD', 'BT', 'RL', 'LR']
   return validDirections.includes(direction)
 }
@@ -74,7 +74,7 @@ function planToMermaid (plan, showLabels = false, direction = 'LR') {
   }
 
   if (!isValidDirection(direction)) {
-    throw new TypeError(`direction must be string of TB, TD, BT, RL or LR, got: ${dir}`)
+    throw new TypeError(`direction must be string of TB, TD, BT, RL or LR, got: ${direction}`)
   }
 
   const graph = p.getGraphStructure()
