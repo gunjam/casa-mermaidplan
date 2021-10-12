@@ -100,7 +100,7 @@ function outputMermaid (args) {
 
 Available options:
   -p/--plan
-      Path to plan file to load, file must be a Plan or a function that returns a Plan.
+      Path to plan file, file must export a Plan or a function that returns a Plan.
   -l/--labels
       Label graph edges with route condition function names.
   -d/--direction
