@@ -4,17 +4,35 @@ const { test } = require('tap')
 const { parseArgument } = require('../mermaid-plan.js')
 
 test('parse arguments', (t) => {
-  t.plan(3)
+  t.plan(4)
 
   const args = parseArgument([
     '-p', 'plan.js',
     '-d', 'td',
-    '-l'
+    '-l',
+    '-h'
   ])
 
   t.same(args.planPath, 'plan.js')
   t.same(args.direction, 'TD')
   t.same(args.showLabels, true)
+  t.same(args.showHelp, true)
+})
+
+test('parse long arguments', (t) => {
+  t.plan(4)
+
+  const args = parseArgument([
+    '--plan', 'plan.js',
+    '--direction', 'td',
+    '--labels',
+    '--help'
+  ])
+
+  t.same(args.planPath, 'plan.js')
+  t.same(args.direction, 'TD')
+  t.same(args.showLabels, true)
+  t.same(args.showHelp, true)
 })
 
 test('parse arguments with defaults', (t) => {

@@ -20,12 +20,19 @@ function parseArgument (args) {
     }
 
     switch (arg) {
+      case '--help':
+      case '-h':
+        opts.showHelp = true
+        return opts
+      case '--labels':
       case '-l':
         opts.showLabels = true
         break
+      case '--plan':
       case '-p':
         opts.planPath = args[i + 1]
         break
+      case '--direction':
       case '-d':
         opts.direction = args[i + 1]?.toUpperCase()
         break
@@ -73,33 +80,52 @@ function planToMermaid (plan, showLabels = false, direction = 'LR') {
   return mermaid
 }
 
-function outputMermaid (p, args) {
-  const { planPath, showLabels, direction } = parseArgument(args)
+function outputMermaid (args) {
+  const { showHelp, planPath, showLabels, direction } = parseArgument(args)
+
+  if (showHelp) {
+    process.stdout.write(`Usage: mermaidplan [opts]
+
+Available options:
+  -p/--plan
+      Path to plan file to load, file must be a Plan or a function that returns a Plan.
+  -l/--labels
+      Label graph edges with route condition function names.
+  -d/--direction
+      Direction of graph, must be either:
+      TB - top to bottom
+      TD - top-down, same as top to bottom
+      BT - bottom to top
+      RL - right to left
+      LR - left to right
+  -h/--help
+      Print this menu.\n`)
+    process.exit(0)
+  }
+
   const plan = require(path.resolve(planPath))
   const mermaid = planToMermaid(plan, showLabels, direction)
 
-  p.stdout.write(`${mermaid}\n`)
-  p.exit(0)
+  process.stdout.write(`${mermaid}\n`)
+  process.exit(0)
 }
 
-function outputError (p, error) {
+function outputError (error) {
   const message = (error.code === 'MODULE_NOT_FOUND')
     ? 'Invalid plan path, file could not be found'
     : error.message
 
-  p.stderr.write(`${message}\n`)
-  p.exit(1)
+  process.stderr.write(`${message}\n`)
+  process.exit(1)
 }
 
 if (require.main === module) {
   try {
-    outputMermaid(process, process.argv.slice(2))
+    outputMermaid(process.argv.slice(2))
   } catch (error) {
-    outputError(process, error)
+    outputError(error)
   }
 }
 
+module.exports = planToMermaid
 module.exports.parseArgument = parseArgument
-module.exports.planToMermaid = planToMermaid
-module.exports.outputMermaid = outputMermaid
-module.exports.outputError = outputError
