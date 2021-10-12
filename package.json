@@ -7,7 +7,7 @@
     "mermaidplan": "mermaid-plan.js"
   },
   "scripts": {
-    "test": "tap test/**/*.test.js",
+    "test": "tap --coverage-report=text --coverage-report=lcov --no-browser test/**/*.test.js",
     "lint": "standard"
   },
   "files": [
