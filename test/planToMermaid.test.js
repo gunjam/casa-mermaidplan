@@ -21,6 +21,22 @@ test('throw if given a function that does not return a plan', (t) => {
   }, 'Invalid plan, file must export a plan or a function that returns a plan')
 })
 
+test('throw if showLabels not a boolean', (t) => {
+  t.plan(1)
+
+  t.throws(() => {
+    planToMermaid(testPlan(), 'true')
+  }, 'showLabels must be a boolean, got: string')
+})
+
+test('throw if direction not valid', (t) => {
+  t.plan(1)
+
+  t.throws(() => {
+    planToMermaid(testPlan(), false, 'UP')
+  }, 'direction must be string of TB, TD, BT, RL or LR, got: UP')
+})
+
 test('returns mermaid notation for given plan', (t) => {
   t.plan(1)
 

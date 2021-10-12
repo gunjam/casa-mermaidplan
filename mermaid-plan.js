@@ -3,8 +3,12 @@
 
 const path = require('path')
 
-function parseArgument (args) {
+function isValidDirection(direction) {
   const validDirections = ['TB', 'TD', 'BT', 'RL', 'LR']
+  return validDirections.includes(direction)
+}
+
+function parseArgument (args) {
   const length = args.length
 
   const opts = {
@@ -46,7 +50,7 @@ function parseArgument (args) {
 -p my-plan.js`)
   }
 
-  if (!validDirections.includes(opts.direction)) {
+  if (!isValidDirection(opts.direction)) {
     throw new TypeError(`Invalid direction (-d), must be one of the following:
   TB - top to bottom
   TD - top-down, same as top to bottom
@@ -63,6 +67,14 @@ function planToMermaid (plan, showLabels = false, direction = 'LR') {
 
   if (p.constructor.name !== 'Plan') {
     throw new TypeError('Invalid Plan, file must be a Plan or a function that returns a Plan')
+  }
+
+  if (typeof showLabels !== 'boolean') {
+    throw new TypeError(`showLabels must be a boolean, got: ${typeof showLabels}`)
+  }
+
+  if (!isValidDirection(direction)) {
+    throw new TypeError(`direction must be string of TB, TD, BT, RL or LR, got: ${dir}`)
   }
 
   const graph = p.getGraphStructure()
