@@ -6,6 +6,7 @@ const { exec } = require('child_process')
 
 const filePath = join(__dirname, '../mermaid-plan.js')
 const planPath = join(__dirname, './helpers/test-plan.js')
+const pEsmPath = join(__dirname, './helpers/test-plan.mjs')
 
 const graph = `graph TD
   page-a --> page-b
@@ -14,10 +15,28 @@ const graph = `graph TD
   page-c -->|no| page-e
 `
 
-test('cli', (t) => {
+test('cli commonjs plan', (t) => {
   t.plan(2)
 
   const child = exec(`node ${filePath} -p ${planPath} -d td -l`)
+
+  let response = ''
+
+  child.stdout.on('data', (chunk) => {
+    response += chunk
+  })
+
+  child.on('close', (code) => {
+    t.same(response, graph)
+    t.same(code, 0)
+    t.end()
+  })
+})
+
+test('cli esm plan', (t) => {
+  t.plan(2)
+
+  const child = exec(`node ${filePath} -p ${pEsmPath} -d td -l`)
 
   let response = ''
 
