@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "description": "",
   "main": "mermaid-plan.js",
+  "engines": {
+    "node": ">14.0.0"
+  },
   "bin": {
     "mermaidplan": "mermaid-plan.js"
   },
