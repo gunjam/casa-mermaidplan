@@ -92,7 +92,7 @@ function planToMermaid (plan, showLabels = false, direction = 'LR') {
   return mermaid
 }
 
-function outputMermaid (args) {
+async function outputMermaid (args) {
   const { showHelp, planPath, showLabels, direction } = parseArgument(args)
 
   if (showHelp) {
@@ -115,7 +115,7 @@ Available options:
     process.exit(0)
   }
 
-  const plan = require(path.resolve(planPath))
+  const { default: plan } = await import(path.resolve(planPath))
   const mermaid = planToMermaid(plan, showLabels, direction)
 
   process.stdout.write(`${mermaid}\n`)
@@ -123,7 +123,7 @@ Available options:
 }
 
 function outputError (error) {
-  const message = (error.code === 'MODULE_NOT_FOUND')
+  const message = (error.code?.indexOf('MODULE_NOT_FOUND') > -1)
     ? 'Invalid plan path, file could not be found'
     : error.message
 
@@ -131,12 +131,16 @@ function outputError (error) {
   process.exit(1)
 }
 
-if (require.main === module) {
+async function run () {
   try {
-    outputMermaid(process.argv.slice(2))
+    await outputMermaid(process.argv.slice(2))
   } catch (error) {
     outputError(error)
   }
+}
+
+if (require.main === module) {
+  run()
 }
 
 module.exports = planToMermaid
