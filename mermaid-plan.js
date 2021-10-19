@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 'use strict'
 
+const { pathToFileURL } = require('url')
 const path = require('path')
 
 function isValidDirection (direction) {
@@ -115,7 +116,7 @@ Available options:
     process.exit(0)
   }
 
-  const { default: plan } = await import(path.resolve(planPath))
+  const { default: plan } = await import(pathToFileURL(path.resolve(planPath)))
   const mermaid = planToMermaid(plan, showLabels, direction)
 
   process.stdout.write(`${mermaid}\n`)
