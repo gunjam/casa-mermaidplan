@@ -78,6 +78,13 @@ graph LR
   page-c --> page-d
   page-c --> page-e
 ```
+```mermaid
+graph LR
+  page-a --> page-b
+  page-b --> page-c
+  page-c --> page-d
+  page-c --> page-e
+```
 
 You can also label the graph edges with route condition function names:
 
@@ -90,12 +97,26 @@ graph LR
   page-c -->|yes| page-d
   page-c -->|no| page-e
 ```
+```mermaid
+graph LR
+  page-a --> page-b
+  page-b --> page-c
+  page-c -->|yes| page-d
+  page-c -->|no| page-e
+```
 
 Set the graph direction:
 
 ```
 mermaidplan -p plan.js -l -d td
 
+graph TD
+  page-a --> page-b
+  page-b --> page-c
+  page-c -->|yes| page-d
+  page-c -->|no| page-e
+```
+```mermaid
 graph TD
   page-a --> page-b
   page-b --> page-c
