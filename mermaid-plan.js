@@ -78,6 +78,25 @@ function planToMermaid (plan, showLabels = false, direction = 'LR') {
     throw new TypeError(`direction must be string of TB, TD, BT, RL or LR, got: ${direction}`)
   }
 
+  const escaped = new Map()
+
+  function escape (edge) {
+    const protectedKeywords = [
+      'class', 'end', 'graph'
+    ]
+
+    if (escaped.has(edge)) {
+      return escaped.get(edge)
+    }
+
+    if (protectedKeywords.some(word => edge.includes(word))) {
+      escaped.set(edge, escaped.size)
+      return `${escaped.get(edge)}["${edge}"]`
+    }
+
+    return edge
+  }
+
   const graph = p.getGraphStructure()
   let mermaid = `graph ${direction}`
 
@@ -86,7 +105,7 @@ function planToMermaid (plan, showLabels = false, direction = 'LR') {
 
     if (edge.name === 'next') {
       const label = showLabels && graph._edgeLabels[key].label
-      mermaid = `${mermaid}\n  ${edge.v} -->${label ? `|${label}|` : ''} ${edge.w}`
+      mermaid = `${mermaid}\n  ${escape(edge.v)} -->${label ? `|${label}|` : ''} ${escape(edge.w)}`
     }
   }
 

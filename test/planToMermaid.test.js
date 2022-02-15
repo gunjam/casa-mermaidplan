@@ -1,6 +1,7 @@
 'use strict'
 
 const { test } = require('tap')
+const Plan = require('@dwp/govuk-casa/lib/Plan.js')
 const planToMermaid = require('../mermaid-plan.js')
 const testPlan = require('./helpers/test-plan.js')
 
@@ -57,6 +58,28 @@ test('returns mermaid notation for function returning a plan', (t) => {
   page-b --> page-c
   page-c --> page-d
   page-c --> page-e`)
+})
+
+test('returns mermaid notation escaping protected terms', (t) => {
+  t.plan(1)
+
+  const plan = new Plan({})
+  plan.addSequence(
+    'page-a',
+    'class',
+    'subgraph',
+    'dead-end',
+    'end-of',
+    'page-b'
+  )
+
+  const mermaid = planToMermaid(plan)
+  t.same(mermaid, `graph LR
+  page-a --> 0["class"]
+  0 --> 1["subgraph"]
+  1 --> 2["dead-end"]
+  2 --> 3["end-of"]
+  3 --> page-b`)
 })
 
 test('returns mermaid notation with specified direction', (t) => {
