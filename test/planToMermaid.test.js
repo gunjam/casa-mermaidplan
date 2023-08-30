@@ -1,7 +1,7 @@
 'use strict'
 
 const { test } = require('tap')
-const Plan = require('@dwp/govuk-casa/lib/Plan.js')
+const { Plan } = require('@dwp/govuk-casa')
 const planToMermaid = require('../mermaid-plan.js')
 const testPlan = require('./helpers/test-plan.js')
 

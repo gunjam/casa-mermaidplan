@@ -1,6 +1,6 @@
 'use strict'
 
-const Plan = require('@dwp/govuk-casa/lib/Plan.js')
+const { Plan } = require('@dwp/govuk-casa')
 
 function testPlan () {
   const plan = new Plan({})
