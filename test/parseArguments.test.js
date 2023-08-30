@@ -1,11 +1,10 @@
 'use strict'
 
-const { test } = require('tap')
+const test = require('node:test')
+const { strictEqual, throws } = require('node:assert')
 const { parseArgument } = require('../mermaid-plan.js')
 
-test('parse arguments', (t) => {
-  t.plan(4)
-
+test('parse arguments', () => {
   const args = parseArgument([
     '-p', 'plan.js',
     '-d', 'td',
@@ -13,15 +12,13 @@ test('parse arguments', (t) => {
     '-h'
   ])
 
-  t.same(args.planPath, 'plan.js')
-  t.same(args.direction, 'TD')
-  t.same(args.showLabels, true)
-  t.same(args.showHelp, true)
+  strictEqual(args.planPath, 'plan.js')
+  strictEqual(args.direction, 'TD')
+  strictEqual(args.showLabels, true)
+  strictEqual(args.showHelp, true)
 })
 
-test('parse long arguments', (t) => {
-  t.plan(4)
-
+test('parse long arguments', () => {
   const args = parseArgument([
     '--plan', 'plan.js',
     '--direction', 'td',
@@ -29,28 +26,24 @@ test('parse long arguments', (t) => {
     '--help'
   ])
 
-  t.same(args.planPath, 'plan.js')
-  t.same(args.direction, 'TD')
-  t.same(args.showLabels, true)
-  t.same(args.showHelp, true)
+  strictEqual(args.planPath, 'plan.js')
+  strictEqual(args.direction, 'TD')
+  strictEqual(args.showLabels, true)
+  strictEqual(args.showHelp, true)
 })
 
-test('parse arguments with defaults', (t) => {
-  t.plan(3)
-
+test('parse arguments with defaults', () => {
   const args = parseArgument([
     '-p', 'plan.js'
   ])
 
-  t.same(args.planPath, 'plan.js')
-  t.same(args.direction, 'LR')
-  t.same(args.showLabels, false)
+  strictEqual(args.planPath, 'plan.js')
+  strictEqual(args.direction, 'LR')
+  strictEqual(args.showLabels, false)
 })
 
-test('throw on invalid direction', (t) => {
-  t.plan(1)
-
-  t.throws(() => {
+test('throw on invalid direction', () => {
+  throws(() => {
     parseArgument([
       '-p', 'plan.js',
       '-d', 'invalid'
@@ -63,20 +56,16 @@ RL - right to left
 LR - left to right`)
 })
 
-test('throw on missing plan path', (t) => {
-  t.plan(1)
-
-  t.throws(() => {
+test('throw on missing plan path', () => {
+  throws(() => {
     parseArgument([])
   }, 'Missing plan path (-p), for example:\n -p my-plan.js')
 })
 
-test('throw on invalid argument', (t) => {
-  t.plan(1)
-
-  t.throws(() => {
+test('throw on invalid argument', () => {
+  throws(() => {
     parseArgument([
       '-z'
     ])
-  }, 'Invalid argument: -z')
+  }, { message: 'Invalid argument: -z' })
 })
