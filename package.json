@@ -19,8 +19,8 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@dwp/govuk-casa": "^7.0.6",
-    "standard": "^16.0.4",
-    "tap": "^16.0.0"
+    "@dwp/govuk-casa": "^8.13.0",
+    "standard": "^17.1.0",
+    "tap": "^16.3.8"
   }
 }

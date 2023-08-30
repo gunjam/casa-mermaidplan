@@ -100,11 +100,9 @@ function planToMermaid (plan, showLabels = false, direction = 'LR') {
   const graph = p.getGraphStructure()
   let mermaid = `graph ${direction}`
 
-  for (const key of Object.keys(graph._edgeObjs)) {
-    const edge = graph._edgeObjs[key]
-
+  for (const edge of graph.edges()) {
     if (edge.name === 'next') {
-      const label = showLabels && graph._edgeLabels[key].label
+      const label = showLabels && graph.edge(edge).conditionName
       mermaid = `${mermaid}\n  ${escape(edge.v)} -->${label ? `|${label}|` : ''} ${escape(edge.w)}`
     }
   }

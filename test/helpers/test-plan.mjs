@@ -1,4 +1,4 @@
-import Plan from '@dwp/govuk-casa/lib/Plan.js'
+import { Plan } from '@dwp/govuk-casa'
 
 function testPlan () {
   const plan = new Plan({})
