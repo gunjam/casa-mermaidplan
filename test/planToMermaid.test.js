@@ -1,68 +1,63 @@
 'use strict'
 
-const { test } = require('tap')
+const test = require('node:test')
+const { strictEqual, throws } = require('node:assert')
 const { Plan } = require('@dwp/govuk-casa')
 const planToMermaid = require('../mermaid-plan.js')
-const testPlan = require('./helpers/test-plan.js')
+const testPlan = require('./fixtures/plan.js')
 
-test('throw if not given a plan or a function', (t) => {
-  t.plan(1)
-
-  t.throws(() => {
+test('throw if not given a plan or a function', () => {
+  throws(() => {
     planToMermaid('fail')
-  }, 'Invalid plan, file must export a plan or a function that returns a plan')
+  }, {
+    message: 'Invalid Plan, file must export a Plan or a function that returns a Plan'
+  })
 })
 
-test('throw if given a function that does not return a plan', (t) => {
-  t.plan(1)
-
-  t.throws(() => {
+test('throw if given a function that does not return a plan', () => {
+  throws(() => {
     planToMermaid(() => 'fail')
-  }, 'Invalid plan, file must export a plan or a function that returns a plan')
+  }, {
+    message: 'Invalid Plan, file must export a Plan or a function that returns a Plan'
+  })
 })
 
-test('throw if showLabels not a boolean', (t) => {
-  t.plan(1)
-
-  t.throws(() => {
+test('throw if showLabels not a boolean', () => {
+  throws(() => {
     planToMermaid(testPlan(), 'true')
-  }, 'showLabels must be a boolean, got: string')
+  }, {
+    message: 'showLabels must be a boolean, got: string'
+  })
 })
 
-test('throw if direction not valid', (t) => {
-  t.plan(1)
-
-  t.throws(() => {
+test('throw if direction not valid', () => {
+  throws(() => {
     planToMermaid(testPlan(), false, 'UP')
-  }, 'direction must be string of TB, TD, BT, RL or LR, got: UP')
+  }, {
+    message: 'direction must be string of TB, TD, BT, RL or LR, got: UP'
+  })
 })
 
-test('returns mermaid notation for given plan', (t) => {
-  t.plan(1)
-
+test('returns mermaid notation for given plan', () => {
   const plan = testPlan()
   const mermaid = planToMermaid(plan)
-  t.same(mermaid, `graph LR
+  strictEqual(mermaid, `graph LR
   page-a --> page-b
   page-b --> page-c
   page-c --> page-d
   page-c --> page-e`)
 })
 
-test('returns mermaid notation for function returning a plan', (t) => {
-  t.plan(1)
-
+test('returns mermaid notation for function returning a plan', () => {
   const mermaid = planToMermaid(testPlan)
-  t.same(mermaid, `graph LR
+  strictEqual(mermaid, `graph LR
   page-a --> page-b
   page-b --> page-c
   page-c --> page-d
   page-c --> page-e`)
 })
 
-test('returns mermaid notation escaping protected terms', (t) => {
-  t.plan(1)
-
+test('returns mermaid notation escaping protected terms', () => {
   const plan = new Plan({})
   plan.addSequence(
     'page-a',
@@ -74,7 +69,7 @@ test('returns mermaid notation escaping protected terms', (t) => {
   )
 
   const mermaid = planToMermaid(plan)
-  t.same(mermaid, `graph LR
+  strictEqual(mermaid, `graph LR
   page-a --> 0["class"]
   0 --> 1["subgraph"]
   1 --> 2["dead-end"]
@@ -82,22 +77,18 @@ test('returns mermaid notation escaping protected terms', (t) => {
   3 --> page-b`)
 })
 
-test('returns mermaid notation with specified direction', (t) => {
-  t.plan(1)
-
+test('returns mermaid notation with specified direction', () => {
   const mermaid = planToMermaid(testPlan, false, 'TD')
-  t.same(mermaid, `graph TD
+  strictEqual(mermaid, `graph TD
   page-a --> page-b
   page-b --> page-c
   page-c --> page-d
   page-c --> page-e`)
 })
 
-test('returns mermaid notation with edge labels', (t) => {
-  t.plan(1)
-
+test('returns mermaid notation with edge labels', () => {
   const mermaid = planToMermaid(testPlan, true)
-  t.same(mermaid, `graph LR
+  strictEqual(mermaid, `graph LR
   page-a --> page-b
   page-b --> page-c
   page-c -->|yes| page-d

@@ -1,12 +1,13 @@
 'use strict'
 
-const { test } = require('tap')
+const test = require('node:test')
+const { strictEqual } = require('node:assert')
 const { join } = require('path')
 const { exec } = require('child_process')
 
 const filePath = join(__dirname, '../mermaid-plan.js')
-const planPath = join(__dirname, './helpers/test-plan.js')
-const pEsmPath = join(__dirname, './helpers/test-plan.mjs')
+const planPath = join(__dirname, './fixtures/plan.js')
+const pEsmPath = join(__dirname, './fixtures/plan.mjs')
 
 const graph = `graph TD
   page-a --> page-b
@@ -15,9 +16,7 @@ const graph = `graph TD
   page-c -->|no| page-e
 `
 
-test('cli commonjs plan', (t) => {
-  t.plan(2)
-
+test('cli commonjs plan', (t, done) => {
   const child = exec(`node ${filePath} -p ${planPath} -d td -l`)
 
   let response = ''
@@ -27,15 +26,13 @@ test('cli commonjs plan', (t) => {
   })
 
   child.on('close', (code) => {
-    t.same(response, graph)
-    t.same(code, 0)
-    t.end()
+    strictEqual(response, graph)
+    strictEqual(code, 0)
+    done()
   })
 })
 
-test('cli esm plan', (t) => {
-  t.plan(2)
-
+test('cli esm plan', (t, done) => {
   const child = exec(`node ${filePath} -p ${pEsmPath} -d td -l`)
 
   let response = ''
@@ -45,15 +42,13 @@ test('cli esm plan', (t) => {
   })
 
   child.on('close', (code) => {
-    t.same(response, graph)
-    t.same(code, 0)
-    t.end()
+    strictEqual(response, graph)
+    strictEqual(code, 0)
+    done()
   })
 })
 
-test('cli help', (t) => {
-  t.plan(2)
-
+test('cli help', (t, done) => {
   const child = exec(`node ${filePath} -h`)
 
   let response = ''
@@ -63,7 +58,7 @@ test('cli help', (t) => {
   })
 
   child.on('close', (code) => {
-    t.same(response, `Usage: mermaidplan [opts]
+    strictEqual(response, `Usage: mermaidplan [opts]
 
 Available options:
   -p/--plan
@@ -79,14 +74,12 @@ Available options:
       LR - left to right
   -h/--help
       Print this menu.\n`)
-    t.same(code, 0)
-    t.end()
+    strictEqual(code, 0)
+    done()
   })
 })
 
-test('cli with defined error', (t) => {
-  t.plan(2)
-
+test('cli with defined error', (t, done) => {
   const child = exec(`node ${filePath} -p ${planPath} -z`)
 
   let response = ''
@@ -96,15 +89,13 @@ test('cli with defined error', (t) => {
   })
 
   child.on('close', (code) => {
-    t.same(code, 1)
-    t.same(response, 'Invalid argument: -z\n')
-    t.end()
+    strictEqual(code, 1)
+    strictEqual(response, 'Invalid argument: -z\n')
+    done()
   })
 })
 
-test('cli with plan read error', (t) => {
-  t.plan(2)
-
+test('cli with plan read error', (t, done) => {
   const child = exec(`node ${filePath} -p not-there.js`)
 
   let response = ''
@@ -114,8 +105,8 @@ test('cli with plan read error', (t) => {
   })
 
   child.on('close', (code) => {
-    t.same(code, 1)
-    t.same(response, 'Invalid plan path, file could not be found\n')
-    t.end()
+    strictEqual(code, 1)
+    strictEqual(response, 'Invalid plan path, file could not be found\n')
+    done()
   })
 })

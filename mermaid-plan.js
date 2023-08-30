@@ -67,7 +67,7 @@ function planToMermaid (plan, showLabels = false, direction = 'LR') {
   const p = plan instanceof Function ? plan() : plan
 
   if (p.constructor.name !== 'Plan') {
-    throw new TypeError('Invalid Plan, file must be a Plan or a function that returns a Plan')
+    throw new TypeError('Invalid Plan, file must export a Plan or a function that returns a Plan')
   }
 
   if (typeof showLabels !== 'boolean') {
