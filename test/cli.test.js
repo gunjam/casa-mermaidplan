@@ -9,7 +9,11 @@ const filePath = join(__dirname, '../mermaid-plan.js')
 const planPath = join(__dirname, './fixtures/plan.js')
 const pEsmPath = join(__dirname, './fixtures/plan.mjs')
 
-const graph = `graph TD
+const graph = `\
+---
+title: My journey
+---
+flowchart TD
   page-a --> page-b
   page-b --> page-c
   page-c -->|yes| page-d
@@ -17,7 +21,7 @@ const graph = `graph TD
 `
 
 test('cli commonjs plan', (t, done) => {
-  const child = exec(`node ${filePath} -p ${planPath} -d td -l`)
+  const child = exec(`node ${filePath} -p ${planPath} -d td -t "My journey" -l`)
 
   let response = ''
 
@@ -33,7 +37,7 @@ test('cli commonjs plan', (t, done) => {
 })
 
 test('cli esm plan', (t, done) => {
-  const child = exec(`node ${filePath} -p ${pEsmPath} -d td -l`)
+  const child = exec(`node ${filePath} -p ${pEsmPath} -d td -t "My journey" -l`)
 
   let response = ''
 
