@@ -38,10 +38,18 @@ test('throw if direction not valid', () => {
   })
 })
 
+test('throw if title not a string', () => {
+  throws(() => {
+    planToMermaid(testPlan(), true, 'LR', 0)
+  }, {
+    message: 'title must be a string, got: number'
+  })
+})
+
 test('returns mermaid notation for given plan', () => {
   const plan = testPlan()
   const mermaid = planToMermaid(plan)
-  strictEqual(mermaid, `graph LR
+  strictEqual(mermaid, `flowchart LR
   page-a --> page-b
   page-b --> page-c
   page-c --> page-d
@@ -50,7 +58,7 @@ test('returns mermaid notation for given plan', () => {
 
 test('returns mermaid notation for function returning a plan', () => {
   const mermaid = planToMermaid(testPlan)
-  strictEqual(mermaid, `graph LR
+  strictEqual(mermaid, `flowchart LR
   page-a --> page-b
   page-b --> page-c
   page-c --> page-d
@@ -69,7 +77,7 @@ test('returns mermaid notation escaping protected terms', () => {
   )
 
   const mermaid = planToMermaid(plan)
-  strictEqual(mermaid, `graph LR
+  strictEqual(mermaid, `flowchart LR
   page-a --> 0["class"]
   0 --> 1["subgraph"]
   1 --> 2["dead-end"]
@@ -77,9 +85,22 @@ test('returns mermaid notation escaping protected terms', () => {
   3 --> page-b`)
 })
 
+test('returns mermaid notation with title', () => {
+  const mermaid = planToMermaid(testPlan, false, 'LR', 'My journey')
+  strictEqual(mermaid, `\
+---
+title: My journey
+---
+flowchart LR
+  page-a --> page-b
+  page-b --> page-c
+  page-c --> page-d
+  page-c --> page-e`)
+})
+
 test('returns mermaid notation with specified direction', () => {
   const mermaid = planToMermaid(testPlan, false, 'TD')
-  strictEqual(mermaid, `graph TD
+  strictEqual(mermaid, `flowchart TD
   page-a --> page-b
   page-b --> page-c
   page-c --> page-d
@@ -88,7 +109,7 @@ test('returns mermaid notation with specified direction', () => {
 
 test('returns mermaid notation with edge labels', () => {
   const mermaid = planToMermaid(testPlan, true)
-  strictEqual(mermaid, `graph LR
+  strictEqual(mermaid, `flowchart LR
   page-a --> page-b
   page-b --> page-c
   page-c -->|yes| page-d

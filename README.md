@@ -42,6 +42,8 @@ Available options:
     BT - bottom to top
     RL - right to left
     LR - left to right
+  -t/--title
+    Set title for graph
   -h/--help
     Print this menu.
 ```
@@ -72,14 +74,14 @@ module.exports = plan
 `mermaidplan -p plan.js` will output:
 
 ```
-graph LR
+flowchart LR
   page-a --> page-b
   page-b --> page-c
   page-c --> page-d
   page-c --> page-e
 ```
 ```mermaid
-graph LR
+flowchart LR
   page-a --> page-b
   page-b --> page-c
   page-c --> page-d
@@ -91,14 +93,14 @@ You can also label the graph edges with route condition function names:
 ```
 mermaidplan -p plan.js -l
 
-graph LR
+flowchart LR
   page-a --> page-b
   page-b --> page-c
   page-c -->|yes| page-d
   page-c -->|no| page-e
 ```
 ```mermaid
-graph LR
+flowchart LR
   page-a --> page-b
   page-b --> page-c
   page-c -->|yes| page-d
@@ -110,14 +112,39 @@ Set the graph direction:
 ```
 mermaidplan -p plan.js -l -d td
 
-graph TD
+flowchart TD
   page-a --> page-b
   page-b --> page-c
   page-c -->|yes| page-d
   page-c -->|no| page-e
 ```
 ```mermaid
-graph TD
+flowchart TD
+  page-a --> page-b
+  page-b --> page-c
+  page-c -->|yes| page-d
+  page-c -->|no| page-e
+```
+
+Set the graph title:
+
+```
+mermaidplan -p plan.js -t "My journey"
+
+---
+title: My journey
+---
+flowchart TD
+  page-a --> page-b
+  page-b --> page-c
+  page-c -->|yes| page-d
+  page-c -->|no| page-e
+```
+```mermaid
+---
+title: My journey
+---
+flowchart TD
   page-a --> page-b
   page-b --> page-c
   page-c -->|yes| page-d
@@ -142,7 +169,7 @@ mermaidplan -p plan.js | mmdc -o plan.svg
 #### Syntax
 
 ```javascript
-planToMermaid(plan[, showLabels, direction]);
+planToMermaid(plan[, showLabels, direction, title]);
 ```
 
 #### Parameters
@@ -150,6 +177,7 @@ planToMermaid(plan[, showLabels, direction]);
 - `plan` a CASA Plan or function that returns a Plan
 - `showLabels` boolean value, show edge labels
 - `direction` string, set direction of flowchart: TB, TD, BT, RL or LR
+- `title` string, title of the graph
 
 #### Example
 
@@ -160,21 +188,31 @@ const planToMermaid = require('casa-mermaidplan')
 const plan = require('./plan.js')
 
 const notationLeftRight = planToMermaid(plan)
-// graph LR
+// flowchart LR
 //   page-a --> page-b
 //   page-b --> page-c
 //   page-c --> page-d
 //   page-c --> page-e
 
 const notationLabelled = planToMermaid(plan, true)
-// graph LR
+// flowchart LR
 //   page-a --> page-b
 //   page-b --> page-c
 //   page-c -->|yes| page-d
 //   page-c -->|no| page-e
 
 const notationTopDown = planToMermaid(plan, false, 'TD')
-// graph TD
+// flowchart TD
+//   page-a --> page-b
+//   page-b --> page-c
+//   page-c --> page-d
+//   page-c --> page-e
+
+const notationTitled = planToMermaid(plan, false, 'LR', 'My journey')
+// ---
+// title: My journey
+// ---
+// flowchart TD
 //   page-a --> page-b
 //   page-b --> page-c
 //   page-c --> page-d

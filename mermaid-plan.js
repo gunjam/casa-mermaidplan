@@ -41,6 +41,10 @@ function parseArgument (args) {
       case '-d':
         opts.direction = args[i + 1]?.toUpperCase()
         break
+      case '--title':
+      case '-t':
+        opts.title = args[i + 1]
+        break
       default:
         throw new Error(`Invalid argument: ${arg}`)
     }
@@ -63,7 +67,7 @@ function parseArgument (args) {
   return opts
 }
 
-function planToMermaid (plan, showLabels = false, direction = 'LR') {
+function planToMermaid (plan, showLabels = false, direction = 'LR', title = '') {
   const p = plan instanceof Function ? plan() : plan
 
   if (p.constructor.name !== 'Plan') {
@@ -76,6 +80,10 @@ function planToMermaid (plan, showLabels = false, direction = 'LR') {
 
   if (!isValidDirection(direction)) {
     throw new TypeError(`direction must be string of TB, TD, BT, RL or LR, got: ${direction}`)
+  }
+
+  if (typeof title !== 'string') {
+    throw new TypeError(`title must be a string, got: ${typeof title}`)
   }
 
   const escaped = new Map()
@@ -98,12 +106,16 @@ function planToMermaid (plan, showLabels = false, direction = 'LR') {
   }
 
   const graph = p.getGraphStructure()
-  let mermaid = `graph ${direction}`
+  let mermaid = `flowchart ${direction}`
+
+  if (title) {
+    mermaid = `---\ntitle: ${title}\n---\n${mermaid}`
+  }
 
   for (const edge of graph.edges()) {
     if (edge.name === 'next') {
       const label = showLabels && graph.edge(edge).conditionName
-      mermaid = `${mermaid}\n  ${escape(edge.v)} -->${label ? `|${label}|` : ''} ${escape(edge.w)}`
+      mermaid += `\n  ${escape(edge.v)} -->${label ? `|${label}|` : ''} ${escape(edge.w)}`
     }
   }
 
@@ -111,7 +123,7 @@ function planToMermaid (plan, showLabels = false, direction = 'LR') {
 }
 
 async function outputMermaid (args) {
-  const { showHelp, planPath, showLabels, direction } = parseArgument(args)
+  const { showHelp, planPath, showLabels, direction, title } = parseArgument(args)
 
   if (showHelp) {
     process.stdout.write(`Usage: mermaidplan [opts]
@@ -134,7 +146,7 @@ Available options:
   }
 
   const { default: plan } = await import(pathToFileURL(path.resolve(planPath)))
-  const mermaid = planToMermaid(plan, showLabels, direction)
+  const mermaid = planToMermaid(plan, showLabels, direction, title)
 
   process.stdout.write(`${mermaid}\n`)
   process.exit(0)

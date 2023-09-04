@@ -8,12 +8,14 @@ test('parse arguments', () => {
   const args = parseArgument([
     '-p', 'plan.js',
     '-d', 'td',
+    '-t', 'My journey',
     '-l',
     '-h'
   ])
 
   strictEqual(args.planPath, 'plan.js')
   strictEqual(args.direction, 'TD')
+  strictEqual(args.title, 'My journey')
   strictEqual(args.showLabels, true)
   strictEqual(args.showHelp, true)
 })
@@ -22,12 +24,14 @@ test('parse long arguments', () => {
   const args = parseArgument([
     '--plan', 'plan.js',
     '--direction', 'td',
+    '--title', 'My journey',
     '--labels',
     '--help'
   ])
 
   strictEqual(args.planPath, 'plan.js')
   strictEqual(args.direction, 'TD')
+  strictEqual(args.title, 'My journey')
   strictEqual(args.showLabels, true)
   strictEqual(args.showHelp, true)
 })
