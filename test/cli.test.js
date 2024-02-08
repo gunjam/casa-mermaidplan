@@ -2,8 +2,8 @@
 
 const test = require('node:test')
 const { strictEqual } = require('node:assert')
-const { join } = require('path')
-const { exec } = require('child_process')
+const { join } = require('node:path')
+const { exec } = require('node:child_process')
 
 const filePath = join(__dirname, '../mermaid-plan.js')
 const planPath = join(__dirname, './fixtures/plan.js')
