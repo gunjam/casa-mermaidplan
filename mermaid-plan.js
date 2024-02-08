@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 'use strict'
 
-const { pathToFileURL } = require('url')
-const path = require('path')
+const { pathToFileURL } = require('node:url')
+const path = require('node:path')
 
 function isValidDirection (direction) {
   const validDirections = ['TB', 'TD', 'BT', 'RL', 'LR']
