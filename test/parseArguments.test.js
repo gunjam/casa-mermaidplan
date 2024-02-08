@@ -1,7 +1,7 @@
 'use strict'
 
 const test = require('node:test')
-const { strictEqual, throws } = require('node:assert')
+const { equal, throws } = require('node:assert/strict')
 const { parseArgument } = require('../mermaid-plan.js')
 
 test('parse arguments', () => {
@@ -13,11 +13,11 @@ test('parse arguments', () => {
     '-h'
   ])
 
-  strictEqual(args.planPath, 'plan.js')
-  strictEqual(args.direction, 'TD')
-  strictEqual(args.title, 'My journey')
-  strictEqual(args.showLabels, true)
-  strictEqual(args.showHelp, true)
+  equal(args.planPath, 'plan.js')
+  equal(args.direction, 'TD')
+  equal(args.title, 'My journey')
+  equal(args.showLabels, true)
+  equal(args.showHelp, true)
 })
 
 test('parse long arguments', () => {
@@ -29,11 +29,11 @@ test('parse long arguments', () => {
     '--help'
   ])
 
-  strictEqual(args.planPath, 'plan.js')
-  strictEqual(args.direction, 'TD')
-  strictEqual(args.title, 'My journey')
-  strictEqual(args.showLabels, true)
-  strictEqual(args.showHelp, true)
+  equal(args.planPath, 'plan.js')
+  equal(args.direction, 'TD')
+  equal(args.title, 'My journey')
+  equal(args.showLabels, true)
+  equal(args.showHelp, true)
 })
 
 test('parse arguments with defaults', () => {
@@ -41,9 +41,9 @@ test('parse arguments with defaults', () => {
     '-p', 'plan.js'
   ])
 
-  strictEqual(args.planPath, 'plan.js')
-  strictEqual(args.direction, 'LR')
-  strictEqual(args.showLabels, false)
+  equal(args.planPath, 'plan.js')
+  equal(args.direction, 'LR')
+  equal(args.showLabels, false)
 })
 
 test('throw on invalid direction', () => {

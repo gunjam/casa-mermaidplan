@@ -1,7 +1,7 @@
 'use strict'
 
 const test = require('node:test')
-const { strictEqual, throws } = require('node:assert')
+const { equal, throws } = require('node:assert/strict')
 const { Plan } = require('@dwp/govuk-casa')
 const planToMermaid = require('../mermaid-plan.js')
 const testPlan = require('./fixtures/plan.js')
@@ -49,7 +49,7 @@ test('throw if title not a string', () => {
 test('returns mermaid notation for given plan', () => {
   const plan = testPlan()
   const mermaid = planToMermaid(plan)
-  strictEqual(mermaid, `flowchart LR
+  equal(mermaid, `flowchart LR
   page-a --> page-b
   page-b --> page-c
   page-c --> page-d
@@ -58,7 +58,7 @@ test('returns mermaid notation for given plan', () => {
 
 test('returns mermaid notation for function returning a plan', () => {
   const mermaid = planToMermaid(testPlan)
-  strictEqual(mermaid, `flowchart LR
+  equal(mermaid, `flowchart LR
   page-a --> page-b
   page-b --> page-c
   page-c --> page-d
@@ -77,7 +77,7 @@ test('returns mermaid notation escaping protected terms', () => {
   )
 
   const mermaid = planToMermaid(plan)
-  strictEqual(mermaid, `flowchart LR
+  equal(mermaid, `flowchart LR
   page-a --> 0["class"]
   0 --> 1["subgraph"]
   1 --> 2["dead-end"]
@@ -87,7 +87,7 @@ test('returns mermaid notation escaping protected terms', () => {
 
 test('returns mermaid notation with title', () => {
   const mermaid = planToMermaid(testPlan, false, 'LR', 'My journey')
-  strictEqual(mermaid, `\
+  equal(mermaid, `\
 ---
 title: My journey
 ---
@@ -100,7 +100,7 @@ flowchart LR
 
 test('returns mermaid notation with specified direction', () => {
   const mermaid = planToMermaid(testPlan, false, 'TD')
-  strictEqual(mermaid, `flowchart TD
+  equal(mermaid, `flowchart TD
   page-a --> page-b
   page-b --> page-c
   page-c --> page-d
@@ -109,7 +109,7 @@ test('returns mermaid notation with specified direction', () => {
 
 test('returns mermaid notation with edge labels', () => {
   const mermaid = planToMermaid(testPlan, true)
-  strictEqual(mermaid, `flowchart LR
+  equal(mermaid, `flowchart LR
   page-a --> page-b
   page-b --> page-c
   page-c -->|yes| page-d

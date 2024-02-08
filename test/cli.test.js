@@ -1,7 +1,7 @@
 'use strict'
 
 const test = require('node:test')
-const { strictEqual } = require('node:assert')
+const { equal } = require('node:assert/strict')
 const { join } = require('node:path')
 const { exec } = require('node:child_process')
 
@@ -30,8 +30,8 @@ test('cli commonjs plan', (t, done) => {
   })
 
   child.on('close', (code) => {
-    strictEqual(response, graph)
-    strictEqual(code, 0)
+    equal(response, graph)
+    equal(code, 0)
     done()
   })
 })
@@ -46,8 +46,8 @@ test('cli esm plan', (t, done) => {
   })
 
   child.on('close', (code) => {
-    strictEqual(response, graph)
-    strictEqual(code, 0)
+    equal(response, graph)
+    equal(code, 0)
     done()
   })
 })
@@ -62,7 +62,7 @@ test('cli help', (t, done) => {
   })
 
   child.on('close', (code) => {
-    strictEqual(response, `Usage: mermaidplan [opts]
+    equal(response, `Usage: mermaidplan [opts]
 
 Available options:
   -p/--plan
@@ -78,7 +78,7 @@ Available options:
       LR - left to right
   -h/--help
       Print this menu.\n`)
-    strictEqual(code, 0)
+    equal(code, 0)
     done()
   })
 })
@@ -93,8 +93,8 @@ test('cli with defined error', (t, done) => {
   })
 
   child.on('close', (code) => {
-    strictEqual(code, 1)
-    strictEqual(response, 'Invalid argument: -z\n')
+    equal(code, 1)
+    equal(response, 'Invalid argument: -z\n')
     done()
   })
 })
@@ -109,8 +109,8 @@ test('cli with plan read error', (t, done) => {
   })
 
   child.on('close', (code) => {
-    strictEqual(code, 1)
-    strictEqual(response, 'Invalid plan path, file could not be found\n')
+    equal(code, 1)
+    equal(response, 'Invalid plan path, file could not be found\n')
     done()
   })
 })
