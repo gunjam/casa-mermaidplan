@@ -16,8 +16,8 @@
   "files": [
     "./mermaid-plan.js"
   ],
-  "author": "",
-  "license": "ISC",
+  "author": "gunjam@gmail.com",
+  "license": "MIT",
   "devDependencies": {
     "@dwp/govuk-casa": "^9.2.1",
     "c8": "^9.1.0",
