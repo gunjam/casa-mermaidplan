@@ -74,14 +74,14 @@ module.exports = plan
 `mermaidplan -p plan.js` will output:
 
 ```
-flowchart LR
+graph LR
   page-a --> page-b
   page-b --> page-c
   page-c --> page-d
   page-c --> page-e
 ```
 ```mermaid
-flowchart LR
+graph LR
   page-a --> page-b
   page-b --> page-c
   page-c --> page-d
@@ -93,14 +93,14 @@ You can also label the graph edges with route condition function names:
 ```
 mermaidplan -p plan.js -l
 
-flowchart LR
+graph LR
   page-a --> page-b
   page-b --> page-c
   page-c -->|yes| page-d
   page-c -->|no| page-e
 ```
 ```mermaid
-flowchart LR
+graph LR
   page-a --> page-b
   page-b --> page-c
   page-c -->|yes| page-d
@@ -112,14 +112,14 @@ Set the graph direction:
 ```
 mermaidplan -p plan.js -l -d td
 
-flowchart TD
+graph TD
   page-a --> page-b
   page-b --> page-c
   page-c -->|yes| page-d
   page-c -->|no| page-e
 ```
 ```mermaid
-flowchart TD
+graph TD
   page-a --> page-b
   page-b --> page-c
   page-c -->|yes| page-d
@@ -134,7 +134,7 @@ mermaidplan -p plan.js -t "My journey"
 ---
 title: My journey
 ---
-flowchart TD
+graph TD
   page-a --> page-b
   page-b --> page-c
   page-c -->|yes| page-d
@@ -144,7 +144,7 @@ flowchart TD
 ---
 title: My journey
 ---
-flowchart TD
+graph TD
   page-a --> page-b
   page-b --> page-c
   page-c -->|yes| page-d
