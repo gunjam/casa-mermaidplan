@@ -1,6 +1,6 @@
 {
   "name": "casa-mermaidplan",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Small tool to convert a CASA Plan into mermaid flowchat notation",
   "main": "mermaid-plan.js",
   "engines": {
