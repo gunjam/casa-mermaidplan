@@ -13,11 +13,11 @@ test('parse arguments', () => {
     '-h'
   ])
 
-  equal(args.planPath, 'plan.js')
+  equal(args.plan, 'plan.js')
   equal(args.direction, 'TD')
   equal(args.title, 'My journey')
-  equal(args.showLabels, true)
-  equal(args.showHelp, true)
+  equal(args.labels, true)
+  equal(args.help, true)
 })
 
 test('parse long arguments', () => {
@@ -29,11 +29,11 @@ test('parse long arguments', () => {
     '--help'
   ])
 
-  equal(args.planPath, 'plan.js')
+  equal(args.plan, 'plan.js')
   equal(args.direction, 'TD')
   equal(args.title, 'My journey')
-  equal(args.showLabels, true)
-  equal(args.showHelp, true)
+  equal(args.labels, true)
+  equal(args.help, true)
 })
 
 test('parse arguments with defaults', () => {
@@ -41,9 +41,9 @@ test('parse arguments with defaults', () => {
     '-p', 'plan.js'
   ])
 
-  equal(args.planPath, 'plan.js')
+  equal(args.plan, 'plan.js')
   equal(args.direction, 'LR')
-  equal(args.showLabels, false)
+  equal(args.labels, false)
 })
 
 test('throw on invalid direction', () => {
@@ -71,5 +71,5 @@ test('throw on invalid argument', () => {
     parseArgument([
       '-z'
     ])
-  }, { message: 'Invalid argument: -z' })
+  }, { message: 'Unknown option \'-z\'' })
 })

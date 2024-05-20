@@ -94,7 +94,7 @@ test('cli with defined error', (t, done) => {
 
   child.on('close', (code) => {
     equal(code, 1)
-    equal(response, 'Invalid argument: -z\n')
+    equal(response, 'Unknown option \'-z\'\n')
     done()
   })
 })

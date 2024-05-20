@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 'use strict'
 
-const { pathToFileURL } = require('node:url')
 const path = require('node:path')
+const { pathToFileURL } = require('node:url')
+const { parseArgs } = require('node:util')
 
 function isValidDirection (direction) {
   const validDirections = ['TB', 'TD', 'BT', 'RL', 'LR']
@@ -10,47 +11,40 @@ function isValidDirection (direction) {
 }
 
 function parseArgument (args) {
-  const length = args.length
-
-  const opts = {
-    showLabels: false,
-    direction: 'LR'
-  }
-
-  for (let i = 0; i < length; i++) {
-    const arg = args[i]
-
-    if (/^[^-]/.test(arg)) {
-      continue
-    }
-
-    switch (arg) {
-      case '--help':
-      case '-h':
-        opts.showHelp = true
-        return opts
-      case '--labels':
-      case '-l':
-        opts.showLabels = true
-        break
-      case '--plan':
-      case '-p':
-        opts.planPath = args[i + 1]
-        break
-      case '--direction':
-      case '-d':
-        opts.direction = args[i + 1]?.toUpperCase()
-        break
-      case '--title':
-      case '-t':
-        opts.title = args[i + 1]
-        break
-      default:
-        throw new Error(`Invalid argument: ${arg}`)
+  const options = {
+    help: {
+      type: 'boolean',
+      short: 'h',
+      default: false
+    },
+    labels: {
+      type: 'boolean',
+      short: 'l',
+      default: false
+    },
+    plan: {
+      type: 'string',
+      short: 'p'
+    },
+    direction: {
+      type: 'string',
+      short: 'd',
+      default: 'LR'
+    },
+    title: {
+      type: 'string',
+      short: 't'
     }
   }
 
-  if (!opts.planPath) {
+  const opts = parseArgs({ args, options }).values
+  opts.direction = opts.direction.toUpperCase()
+
+  if (opts.help) {
+    return opts
+  }
+
+  if (!opts.plan) {
     throw new TypeError(`Missing plan path (-p), for example:
 -p my-plan.js`)
   }
@@ -67,15 +61,15 @@ function parseArgument (args) {
   return opts
 }
 
-function planToMermaid (plan, showLabels = false, direction = 'LR', title = '') {
+function planToMermaid (plan, labels = false, direction = 'LR', title = '') {
   const p = plan instanceof Function ? plan() : plan
 
   if (p.constructor.name !== 'Plan') {
     throw new TypeError('Invalid Plan, file must export a Plan or a function that returns a Plan')
   }
 
-  if (typeof showLabels !== 'boolean') {
-    throw new TypeError(`showLabels must be a boolean, got: ${typeof showLabels}`)
+  if (typeof labels !== 'boolean') {
+    throw new TypeError(`labels must be a boolean, got: ${typeof labels}`)
   }
 
   if (!isValidDirection(direction)) {
@@ -88,7 +82,7 @@ function planToMermaid (plan, showLabels = false, direction = 'LR', title = '') 
 
   const escaped = new Map()
 
-  function escape (edge) {
+  function escapeKeywords (edge) {
     const protectedKeywords = [
       'class', 'end', 'graph'
     ]
@@ -114,8 +108,10 @@ function planToMermaid (plan, showLabels = false, direction = 'LR', title = '') 
 
   for (const edge of graph.edges()) {
     if (edge.name === 'next') {
-      const label = showLabels && graph.edge(edge).conditionName
-      mermaid += `\n  ${escape(edge.v)} -->${label ? `|${label}|` : ''} ${escape(edge.w)}`
+      const label = labels && graph.edge(edge).conditionName
+      const source = escapeKeywords(edge.v)
+      const target = escapeKeywords(edge.w)
+      mermaid += `\n  ${source} -->${label ? `|${label}|` : ''} ${target}`
     }
   }
 
@@ -123,9 +119,9 @@ function planToMermaid (plan, showLabels = false, direction = 'LR', title = '') 
 }
 
 async function outputMermaid (args) {
-  const { showHelp, planPath, showLabels, direction, title } = parseArgument(args)
+  const { help, plan: planPath, labels, direction, title } = parseArgument(args)
 
-  if (showHelp) {
+  if (help) {
     process.stdout.write(`Usage: mermaidplan [opts]
 
 Available options:
@@ -146,7 +142,7 @@ Available options:
   }
 
   const { default: plan } = await import(pathToFileURL(path.resolve(planPath)))
-  const mermaid = planToMermaid(plan, showLabels, direction, title)
+  const mermaid = planToMermaid(plan, labels, direction, title)
 
   process.stdout.write(`${mermaid}\n`)
   process.exit(0)
