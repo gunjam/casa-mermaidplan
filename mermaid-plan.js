@@ -83,15 +83,11 @@ function planToMermaid (plan, labels = false, direction = 'LR', title = '') {
   const escaped = new Map()
 
   function escapeKeywords (edge) {
-    const protectedKeywords = [
-      'class', 'end', 'graph'
-    ]
-
     if (escaped.has(edge)) {
       return escaped.get(edge)
     }
 
-    if (protectedKeywords.some(word => edge.includes(word))) {
+    if (/class|end|graph/.test(edge)) {
       escaped.set(edge, escaped.size)
       return `${escaped.get(edge)}["${edge}"]`
     }
