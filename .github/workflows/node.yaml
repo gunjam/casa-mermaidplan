@@ -1,6 +1,14 @@
 name: Node.js CI
 
-on: [ push, pull_request ]
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - '*.md'
+  pull_request:
+    paths-ignore:
+      - '*.md'
 
 jobs:
   test:
@@ -8,12 +16,12 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
-        node-version: [16, 18]
+        node-version: [18, 20, 22]
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
     - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v2.4.1
+      uses: actions/setup-node@v4
       with:
         node-version: ${{ matrix.node-version }}
     - run: node --version
