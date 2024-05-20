@@ -4,7 +4,7 @@
   "description": "",
   "main": "mermaid-plan.js",
   "engines": {
-    "node": ">16.0.0"
+    "node": ">18.11.0"
   },
   "bin": {
     "mermaidplan": "mermaid-plan.js"
