@@ -164,6 +164,7 @@ function outputError (error) {
 async function run () {
   try {
     await outputMermaid(process.argv.slice(2))
+  /* c8 ignore next 3 */
   } catch (error) {
     outputError(error)
   }
