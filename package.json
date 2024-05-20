@@ -1,7 +1,7 @@
 {
   "name": "casa-mermaidplan",
   "version": "0.1.0",
-  "description": "",
+  "description": "Small tool to convert a CASA Plan into mermaid flowchat notation",
   "main": "mermaid-plan.js",
   "engines": {
     "node": ">18.11.0"
@@ -17,6 +17,14 @@
     "./mermaid-plan.js"
   ],
   "author": "gunjam@gmail.com",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gunjam/casa-mermaidplan.git"
+  },
+  "bugs": {
+    "url": "https://github.com/gunjam/casa-mermaidplan/issues"
+  },
+  "homepage": "https://github.com/gunjam/casa-mermaidplan/#readme",
   "license": "MIT",
   "devDependencies": {
     "@dwp/govuk-casa": "^9.2.1",
