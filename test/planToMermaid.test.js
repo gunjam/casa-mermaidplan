@@ -22,11 +22,11 @@ test('throw if given a function that does not return a plan', () => {
   })
 })
 
-test('throw if showLabels not a boolean', () => {
+test('throw if labels not a boolean', () => {
   throws(() => {
     planToMermaid(testPlan(), 'true')
   }, {
-    message: 'showLabels must be a boolean, got: string'
+    message: 'labels must be a boolean, got: string'
   })
 })
 
