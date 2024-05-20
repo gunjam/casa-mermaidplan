@@ -10,7 +10,7 @@
     "mermaidplan": "mermaid-plan.js"
   },
   "scripts": {
-    "test": "nyc node --test test/cli.test.js test/parseArguments.test.js test/planToMermaid.test.js",
+    "test": "c8 node --test test/cli.test.js test/parseArguments.test.js test/planToMermaid.test.js",
     "lint": "standard ."
   },
   "files": [
@@ -20,7 +20,7 @@
   "license": "ISC",
   "devDependencies": {
     "@dwp/govuk-casa": "^8.13.0",
-    "nyc": "^15.1.0",
+    "c8": "^9.1.0",
     "standard": "^17.1.0"
   }
 }
