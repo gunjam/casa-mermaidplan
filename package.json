@@ -10,7 +10,7 @@
     "mermaidplan": "mermaid-plan.js"
   },
   "scripts": {
-    "test": "c8 node --test test/cli.test.js test/parseArguments.test.js test/planToMermaid.test.js",
+    "test": "borp --coverage",
     "lint": "standard ."
   },
   "files": [
@@ -28,7 +28,7 @@
   "license": "MIT",
   "devDependencies": {
     "@dwp/govuk-casa": "^9.2.1",
-    "c8": "^9.1.0",
+    "borp": "^0.14.0",
     "standard": "^17.1.0"
   }
 }
