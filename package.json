@@ -28,7 +28,7 @@
   "license": "MIT",
   "devDependencies": {
     "@dwp/govuk-casa": "^9.2.1",
-    "borp": "^0.14.0",
+    "borp": "^0.15.0",
     "standard": "^17.1.0"
   }
 }
