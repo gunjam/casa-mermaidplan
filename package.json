@@ -11,7 +11,7 @@
   },
   "scripts": {
     "test": "borp --coverage",
-    "lint": "standard ."
+    "lint": "eslint ."
   },
   "files": [
     "./mermaid-plan.js"
@@ -29,6 +29,7 @@
   "devDependencies": {
     "@dwp/govuk-casa": "^9.2.1",
     "borp": "^0.15.0",
-    "standard": "^17.1.0"
+    "eslint": "^9.5.0",
+    "neostandard": "^0.8.0"
   }
 }
