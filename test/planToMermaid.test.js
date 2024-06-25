@@ -10,7 +10,7 @@ test('throw if not given a plan or a function', () => {
   throws(() => {
     planToMermaid('fail')
   }, {
-    message: 'Invalid Plan, file must export a Plan or a function that returns a Plan'
+    message: 'Invalid Plan, file must export a Plan or a function that returns a Plan',
   })
 })
 
@@ -18,7 +18,7 @@ test('throw if given a function that does not return a plan', () => {
   throws(() => {
     planToMermaid(() => 'fail')
   }, {
-    message: 'Invalid Plan, file must export a Plan or a function that returns a Plan'
+    message: 'Invalid Plan, file must export a Plan or a function that returns a Plan',
   })
 })
 
@@ -26,7 +26,7 @@ test('throw if labels not a boolean', () => {
   throws(() => {
     planToMermaid(testPlan(), 'true')
   }, {
-    message: 'labels must be a boolean, got: string'
+    message: 'labels must be a boolean, got: string',
   })
 })
 
@@ -34,7 +34,7 @@ test('throw if direction not valid', () => {
   throws(() => {
     planToMermaid(testPlan(), false, 'UP')
   }, {
-    message: 'direction must be string of TB, TD, BT, RL or LR, got: UP'
+    message: 'direction must be string of TB, TD, BT, RL or LR, got: UP',
   })
 })
 
@@ -42,7 +42,7 @@ test('throw if title not a string', () => {
   throws(() => {
     planToMermaid(testPlan(), true, 'LR', 0)
   }, {
-    message: 'title must be a string, got: number'
+    message: 'title must be a string, got: number',
   })
 })
 

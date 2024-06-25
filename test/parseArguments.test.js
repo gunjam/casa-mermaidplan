@@ -10,7 +10,7 @@ test('parse arguments', () => {
     '-d', 'td',
     '-t', 'My journey',
     '-l',
-    '-h'
+    '-h',
   ])
 
   equal(args.plan, 'plan.js')
@@ -26,7 +26,7 @@ test('parse long arguments', () => {
     '--direction', 'td',
     '--title', 'My journey',
     '--labels',
-    '--help'
+    '--help',
   ])
 
   equal(args.plan, 'plan.js')
@@ -38,7 +38,7 @@ test('parse long arguments', () => {
 
 test('parse arguments with defaults', () => {
   const args = parseArgument([
-    '-p', 'plan.js'
+    '-p', 'plan.js',
   ])
 
   equal(args.plan, 'plan.js')
@@ -50,7 +50,7 @@ test('throw on invalid direction', () => {
   throws(() => {
     parseArgument([
       '-p', 'plan.js',
-      '-d', 'invalid'
+      '-d', 'invalid',
     ])
   }, `Invalid direction (-d), must be one of the following:
 TB - top to bottom
@@ -69,7 +69,7 @@ test('throw on missing plan path', () => {
 test('throw on invalid argument', () => {
   throws(() => {
     parseArgument([
-      '-z'
+      '-z',
     ])
   }, { message: 'Unknown option \'-z\'' })
 })

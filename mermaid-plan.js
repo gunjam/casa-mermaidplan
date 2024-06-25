@@ -15,26 +15,26 @@ function parseArgument (args) {
     help: {
       type: 'boolean',
       short: 'h',
-      default: false
+      default: false,
     },
     labels: {
       type: 'boolean',
       short: 'l',
-      default: false
+      default: false,
     },
     plan: {
       type: 'string',
-      short: 'p'
+      short: 'p',
     },
     direction: {
       type: 'string',
       short: 'd',
-      default: 'LR'
+      default: 'LR',
     },
     title: {
       type: 'string',
-      short: 't'
-    }
+      short: 't',
+    },
   }
 
   const opts = parseArgs({ args, options }).values
