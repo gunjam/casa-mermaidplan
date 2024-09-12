@@ -1,7 +1,7 @@
 # casa-mermaidplan 🧜‍♀️
 
 [![Coverage Status](https://coveralls.io/repos/github/gunjam/casa-mermaidplan/badge.svg)](https://coveralls.io/github/gunjam/casa-mermaidplan)
-[![Standard - JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+[![neostandard javascript style](https://img.shields.io/badge/neo-standard-7fffff?style=flat\&labelColor=ff80ff)](https://github.com/neostandard/neostandard)
 
 A simple utility to convert a [CASA](https://github.com/dwp/govuk-casa)
 Plan into [mermaid](https://mermaid-js.github.io/mermaid/#/) [flowchart](https://mermaid-js.github.io/mermaid/#/flowchart) notation, which can be then used in webpages alongside mermaid.js or
